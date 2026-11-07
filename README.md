@@ -1,37 +1,39 @@
-# Bremo AI Hire
+<picture>
+  <source media="(max-width: 600px)" srcset="docs/readme/hero-mobile.svg">
+  <img src="docs/readme/hero.svg" width="100%" alt="Bremo AI Hire — Structure the evidence. Challenge the recommendation.">
+</picture>
 
-Strategic hiring intelligence for high-impact roles.
+<p align="center"><a href="https://bremo-insight-hiring.lovable.app"><b>Demo ↗</b></a> &nbsp; · &nbsp; <a href="#project-preview"><b>Walkthrough ↗</b></a> &nbsp; · &nbsp; <a href="Bremo_v2.json"><b>Prompt contracts ↗</b></a></p>
 
-Bremo AI Hire helps hiring teams make better decisions when stakes are high and trade-offs are real. Instead of producing a simple candidate ranking, it generates a defensible recommendation package that combines role fit, scenario fit, team dynamics, execution risk, and challenge testing.
+A hiring decision-support prototype combining role fit, scenario context, team analysis and challenger explanations through a structured agent workflow.
 
-Demo: `bremo-insight-hiring.lovable.app`
+## Evidence at a glance
 
-![Bremo product landing and setup](images/landing.png)
+| Focus | What this repository contains |
+| :--- | :--- |
+| **Scoring** | Python owns numerical ranking; agents explain and challenge. |
+| **Orchestration** | n8n handles CV intake and normalization. |
+| **Scope** | A prototype whose recommendations require human judgment; repository claims are not hiring-outcome validation. |
 
-## The Problem We Solve
+## Project preview
 
-Most hiring processes break down when organizations recruit for senior or business-critical roles:
+![Committed project artifact](images/result_page.png)
 
-- CV review is inconsistent and difficult to compare across internal and external talent.
-- Interview panels over-index on intuition, recency bias, or strongest personalities in the room.
-- Hiring decisions ignore context shifts (turnaround, expansion, stability, transformation).
-- Teams optimize for speed-to-fill, then discover role mismatch and integration issues later.
-- Committee discussions produce opinions, not structured evidence that can be audited.
+## How the pieces fit
 
-Bremo addresses this by converting hiring into a structured, explainable decision workflow with clear ownership of scoring, reasoning, and challenge.
+<picture>
+  <source media="(max-width: 600px)" srcset="docs/readme/workflow-mobile.svg">
+  <img src="docs/readme/workflow.svg" width="100%" alt="Context: Role, scenario and team inputs / Analyze: Structured agent responsibilities / Challenge: Scoring, dissent and synthesis">
+</picture>
 
-## How Bremo Solves It
+## Getting started
 
-Bremo runs a multi-agent pipeline designed for committee-grade decisions:
+Use the source and project documents linked above. Detailed notes are available below.
 
-- **Role Intelligence**: defines what matters for the role using fixed criteria.
-- **Candidate Evaluation**: scores each candidate with evidence-backed reasoning.
-- **Scenario Calibration**: adjusts priorities for the active business context.
-- **Team Interaction Analysis**: predicts compatibility and execution friction.
-- **Decision + Challenger Layer**: explains ranking and pressure-tests the recommendation.
-- **Executive Synthesis**: packages the output into a clear brief for action.
+## Technical reference
 
-The result is a transparent recommendation that leaders can defend, challenge, and operationalize.
+<details>
+<summary><b>Methods and implementation</b></summary>
 
 ## High-Level Architecture
 
@@ -80,6 +82,46 @@ Formula:
 
 Python is the source of truth for numerical ranking. Decision-focused agents explain and stress-test that ranking without altering the math.
 
+</details>
+
+<details>
+<summary><b>Project context and reference</b></summary>
+
+# Bremo AI Hire
+
+Strategic hiring intelligence for high-impact roles.
+
+Bremo AI Hire helps hiring teams make better decisions when stakes are high and trade-offs are real. Instead of producing a simple candidate ranking, it generates a defensible recommendation package that combines role fit, scenario fit, team dynamics, execution risk, and challenge testing.
+
+Demo: `bremo-insight-hiring.lovable.app`
+
+![Bremo product landing and setup](images/landing.png)
+
+## The Problem We Solve
+
+Most hiring processes break down when organizations recruit for senior or business-critical roles:
+
+- CV review is inconsistent and difficult to compare across internal and external talent.
+- Interview panels over-index on intuition, recency bias, or strongest personalities in the room.
+- Hiring decisions ignore context shifts (turnaround, expansion, stability, transformation).
+- Teams optimize for speed-to-fill, then discover role mismatch and integration issues later.
+- Committee discussions produce opinions, not structured evidence that can be audited.
+
+Bremo addresses this by converting hiring into a structured, explainable decision workflow with clear ownership of scoring, reasoning, and challenge.
+
+## How Bremo Solves It
+
+Bremo runs a multi-agent pipeline designed for committee-grade decisions:
+
+- **Role Intelligence**: defines what matters for the role using fixed criteria.
+- **Candidate Evaluation**: scores each candidate with evidence-backed reasoning.
+- **Scenario Calibration**: adjusts priorities for the active business context.
+- **Team Interaction Analysis**: predicts compatibility and execution friction.
+- **Decision + Challenger Layer**: explains ranking and pressure-tests the recommendation.
+- **Executive Synthesis**: packages the output into a clear brief for action.
+
+The result is a transparent recommendation that leaders can defend, challenge, and operationalize.
+
 ## Product Walkthrough
 
 ### 1) Setup and Search Context
@@ -117,3 +159,6 @@ Each candidate view includes detailed analysis: reasoning, intelligence breakdow
 ## Summary
 
 Bremo AI Hire transforms senior hiring from subjective discussion into structured decision intelligence. Its combination of n8n orchestration, disciplined prompt engineering, and multi-agent analysis helps teams choose not only the strongest candidate on paper, but the right candidate for the actual business moment.
+
+</details>
+
