@@ -8,63 +8,28 @@ export async function submitIntake(payload: unknown): Promise<unknown> {
     return mockSummaryResult;
   }
 
-  const webhookUrl = "https://n8n-production-1d1e.up.railway.app/webhook/850910a7-8203-4499-a10a-e04ab736dccd";
+  const webhookUrl = import.meta.env.VITE_N8N_WEBHOOK_URL?.trim();
   if (!webhookUrl) {
-    throw new Error(
-      "VITE_N8N_WEBHOOK_URL is not defined. Add it to your .env.local file."
-    );
+    throw new Error("Configure VITE_N8N_WEBHOOK_URL for live intake or enable VITE_USE_MOCK.");
   }
 
-  const MAX_RETRIES = 3;
-  const RETRY_DELAY_MS = 5000;
-  const TIMEOUT_MS = 15 * 60 * 1000; // 15 minutes
-
-  let response: Response | undefined;
-
-  for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
-      response = await fetch(webhookUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-        signal: controller.signal,
-      });
-      clearTimeout(timeoutId);
-      break; // success — exit retry loop
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : String(err);
-      const isNetworkError =
-        msg.includes("Failed to fetch") ||
-        msg.includes("NetworkError") ||
-        msg.includes("AbortError") ||
-        msg.includes("ECONNRESET") ||
-        msg.includes("ETIMEDOUT") ||
-        msg.includes("timeout") ||
-        msg.includes("network");
-
-      if (isNetworkError && attempt < MAX_RETRIES - 1) {
-        console.log(`[submitIntake] Network error on attempt ${attempt + 1}, retrying in ${RETRY_DELAY_MS / 1000}s...`);
-        await new Promise((r) => setTimeout(r, RETRY_DELAY_MS));
-        continue;
-      }
-
-      throw new Error(
-        "Could not reach the n8n webhook after multiple retries. Check that:\n" +
-        "1. Your n8n workflow is Active (not just in Test mode)\n" +
-        '2. The webhook URL uses /webhook/ (not /webhook-test/)\n' +
-        "3. The n8n server is running and accessible\n\n" +
-        `Original error: ${msg}`
-      );
-    }
+  // A lost response may follow a successful intake. Repeating the POST could
+  // create a second review, so leave a retry decision to the operator.
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 15 * 60 * 1000);
+  let response: Response;
+  let text: string;
+  try {
+    response = await fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    });
+    text = await response.text();
+  } finally {
+    clearTimeout(timer);
   }
-
-  if (!response) {
-    throw new Error("No response received after all retry attempts.");
-  }
-
-  const text = await response.text();
 
   if (!response.ok) {
     throw new Error(
