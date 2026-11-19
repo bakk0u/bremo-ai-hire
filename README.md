@@ -17,7 +17,7 @@ A hiring decision-support prototype combining role fit, scenario context, team a
 
 ## Project preview
 
-![Committed project artifact](images/result_page.png)
+![Candidate review screen with scoring results](images/result_page.png)
 
 ## How the pieces fit
 
@@ -28,7 +28,7 @@ A hiring decision-support prototype combining role fit, scenario context, team a
 
 ## Getting started
 
-Use the source and project documents linked above. Detailed notes are available below.
+Run `npm ci` and `npm run dev` from the repository root. The frontend reads `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY`. For offline intake, set `VITE_USE_MOCK=true` in `.env.local`. For live intake, configure your own `VITE_N8N_WEBHOOK_URL` before submitting candidate data. The edge functions and n8n workflows are separate services. Use `npm run build` to create the static frontend.
 
 ## Technical reference
 
